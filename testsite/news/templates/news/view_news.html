@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}
+	{{ news_item }}
+{% endblock %}
+
+{% block sidebar %}
+{% include 'inc/_sidebar.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div style="margin-bottom: 2rem;">
+		<img class="card-img-top" src="{{ news_item.photo.url }}" style="height: 40rem; width: 100%;  object-fit: cover;">
+
+	    <div class="mb-4 mt-4">
+		    <p class=""> Категория:
+			    <a class="my_link" href="{% url 'category' news_item.category.pk %}">{{ news_item.category }}</a>
+		    <p>
+	    </div>
+
+	    <h5 class="card-title mb-4 mt-4 fw-bold">  {{ news_item.title }}</h5>
+
+	    <p class="card-text my-card-text mb-4 mt-4">
+		    {{ news_item.content|linebreaksbr}}
+	    </p>
+
+		<hr>
+
+	    <div class=" text-muted ">
+	        {{ news_item.created_at |date:'d/m/Y H:i' }}
+	    </div>
+	<div>
+		<button href="">Вперед</button>
+		<button href="">Назад</button>
+	</div>
+</div>
+
+{% endblock %}
