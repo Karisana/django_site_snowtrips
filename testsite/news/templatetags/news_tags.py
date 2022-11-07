@@ -1,6 +1,5 @@
 from django import template
 from django.db.models import Count, F
-from django.core.cache import cache
 
 from news.models import Category
 

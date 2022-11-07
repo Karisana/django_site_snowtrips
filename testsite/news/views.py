@@ -21,7 +21,7 @@ class HomeNews(ListView):
 
 class NewsByCategory(ListView):
     model = News
-    template_name = 'news/home_news_list.html'
+    # template_name = 'news/home_news_list.html'
     context_object_name = 'news'
 
     allow_empty = False  # разрешаем показ пустых списков
