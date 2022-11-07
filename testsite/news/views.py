@@ -6,7 +6,6 @@ from .forms import NewsForm
 
 
 class HomeNews(ListView):
-
     model = News
     template_name = 'news/home_news_list.html'
     context_object_name = 'news'
@@ -20,13 +19,12 @@ class HomeNews(ListView):
         return News.objects.filter(is_published=True)
 
 
-
-
 class NewsByCategory(ListView):
     model = News
     template_name = 'news/home_news_list.html'
     context_object_name = 'news'
-    allow_empty = True  # не разрешаем показ пустых списков
+
+    allow_empty = False  # разрешаем показ пустых списков
 
     def get_queryset(self):
         return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True)
@@ -40,7 +38,6 @@ class NewsByCategory(ListView):
 class ViewNews(DetailView):
     model = News
     context_object_name = 'news_item'
-    # template_name = 'news/news_details.html'
     # pk_url_kwarg = 'news_id'
 
 
