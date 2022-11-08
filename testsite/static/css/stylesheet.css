@@ -282,19 +282,31 @@ html {
     color: red;
 }
 
+.pagination {
+  --bs-pagination-bg: none !important;
+}
+
+.page-link {
+  border: var(--bs-pagination-border-width) solid #000000 !important;
+  color: #000000 !important;
+}
 
 .base-my-nav {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  /* background:#000000; 
-  color: #ffffff; */
 }
 
 .base-my-nav-active {
   background:#000000 !important; 
   color: #ffffff !important;
 }
+
+.page-item:last-child .page-link {
+  border-radius: 0px !important;
+}
+
+
 .page-item:first-child .page-link {
   border-radius: 0px !important;
 }
