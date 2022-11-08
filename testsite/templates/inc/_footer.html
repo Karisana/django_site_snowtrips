@@ -7,9 +7,11 @@
 <!--		  <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>-->
 <!--		</a>-->
 		<ul class="nav justify-content-center border-bottom pb-3 mb-3">
-		  <li class="nav-item"><a href="#" class="nav-link px-2 text-muted my_link">На главную</a></li>
-		  <li class="nav-item"><a href="{% url 'add_news' %}" class="nav-link px-2 text-muted my_link">Предложить новость</a></li>
-		  <li class="nav-item"><a href="#" class="nav-link px-2 text-muted my_link">Поддержать проект</a></li>
+		  <li class="nav-item"><a href="{% url 'home' %}" class="nav-link px-2 text-muted my_link">На главную</a></li>
+			{% if request.user.is_authenticated %}
+		            <li class="nav-item"><a href="{% url 'add_news' %}" class="nav-link px-2 text-muted my_link">Предложить новость</a></li>
+		    {% endif %}
+			<li class="nav-item"><a href="#" class="nav-link px-2 text-muted my_link">Поддержать проект</a></li>
 		</ul>
 <!--	</div>-->
 			<p class="text-center text-muted">&copy; 2022 Компания</p>

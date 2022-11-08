@@ -3,9 +3,7 @@
 	{{ news_item }}
 {% endblock %}
 
-{% block sidebar %}
 {% include 'inc/_sidebar.html' %}
-{% endblock %}
 
 {% block content %}
 
@@ -14,7 +12,7 @@
 
 	    <div class="mb-4 mt-4">
 		    <p class=""> Категория:
-			    <a class="my_link" href="{% url 'category' news_item.category.pk %}">{{ news_item.category }}</a>
+			    <a class="my_link" href="{% url 'category' item.category.pk %}">{{ news_item.category }}</a>
 		    <p>
 	    </div>
 

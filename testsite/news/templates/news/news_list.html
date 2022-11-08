@@ -18,7 +18,7 @@
 
 		        <img class="card-img-top" src="{{ item.photo.url }}" style="height: 18rem; width: 100%;  object-fit: cover;">
 	            <div class="card-body">
-                <p class="mb-4 mt-4"> !Категория: <a class="my_link" href="{% url 'category' item.category.pk %}">{{ item.category }}</a><p>
+                <p class="mb-4 mt-4"> Категория: <a class="my_link" href="{% url 'category' item.category.pk %}">{{ item.category }} </a><p>
 
 	              <h5 class="card-title mb-4 mt-4 fw-bold">  {{ item.title }}</h5>
 	              <p class="card-text my-card-text mb-3 mt-3">{{ item.content|linebreaksbr|truncatewords:15}}</p>

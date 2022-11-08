@@ -3,11 +3,11 @@ from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import News, Category
 from .forms import NewsForm
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 class HomeNews(ListView):
     model = News
-    template_name = 'news/home_news_list.html'
+    template_name = 'news/news_list.html'
     context_object_name = 'news'
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -16,7 +16,7 @@ class HomeNews(ListView):
         return context
 
     def get_queryset(self):
-        return News.objects.filter(is_published=True)
+        return News.objects.filter(is_published=True).select_related('category')
 
 
 class NewsByCategory(ListView):
@@ -27,7 +27,7 @@ class NewsByCategory(ListView):
     allow_empty = False  # разрешаем показ пустых списков
 
     def get_queryset(self):
-        return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True)
+        return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True).select_related('category')
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -41,10 +41,11 @@ class ViewNews(DetailView):
     # pk_url_kwarg = 'news_id'
 
 
-class CreateNews(CreateView):
+class CreateNews(LoginRequiredMixin,CreateView):
     form_class = NewsForm
     template_name = 'news/add_news.html'
     # success_url = reverse_lazy('home')
+    login_url = '/admin/'
 
 # Форма связанная с моделью:
 # def add_news(request):
