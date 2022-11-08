@@ -44,6 +44,47 @@
 		{% include 'inc/_sidebar.html' %}
 
 		{% block content %} Content {% endblock %}
+
+		{% if page_obj.has_other_pages%}
+		<nav  aria-label="Навигация по страницам">
+		  <ul class="base-my-nav pagination" >
+
+			    {% if page_obj.has_previous%}
+				  <li class="page-item">
+				      <a class="page-link" href="?page={{page_obj.previous_page_number}}" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				  </li>
+			    {% endif %}
+
+			  {%  for num_page in page_obj.paginator.page_range %}
+
+			    {% if page_obj.number == num_page %}
+			        <li class="page-item active base-my-nav-active">
+					    <a class="page-link" href="?page={{num_page}}">{{ num_page }}
+					    </a>
+				    </li>
+
+			    {% elif num_page > page_obj.number|add:-3 and num_page < page_obj.number|add:3 %}
+
+			        <li class="page-item">
+					    <a class="page-link" href="?page={{num_page}}">{{ num_page }}</a>
+				    </li>
+
+			    {% endif %}
+			  {% endfor %}
+
+			  {% if page_obj.has_next%}
+				  <li class="page-item">
+				      <a class="page-link" href="?page={{page_obj.next_page_number}}" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+			     </li>
+			  {% endif %}
+		  </ul>
+		</nav>
+		{% endif %}
+
 	</div>
 
 </section>

@@ -4,11 +4,22 @@ from django.urls import reverse_lazy
 from .models import News, Category
 from .forms import NewsForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.paginator import Paginator
+
+
+def test(request):
+    objects = ['john1', 'paul2', 'george3', 'ringo4', ' john5', 'paul6', 'george7']
+    paginator = Paginator(objects, 2)
+    page_num = request.GET.get('page', 1)
+    page_objects = paginator.get_page(page_num)
+    return render(request, 'news/test.html/', {"page_obj": page_objects})
+
 
 class HomeNews(ListView):
     model = News
     template_name = 'news/news_list.html'
     context_object_name = 'news'
+    paginate_by = 6
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -23,6 +34,7 @@ class NewsByCategory(ListView):
     model = News
     # template_name = 'news/home_news_list.html'
     context_object_name = 'news'
+    paginate_by = 2
 
     allow_empty = False  # разрешаем показ пустых списков
 
@@ -41,7 +53,7 @@ class ViewNews(DetailView):
     # pk_url_kwarg = 'news_id'
 
 
-class CreateNews(LoginRequiredMixin,CreateView):
+class CreateNews(LoginRequiredMixin, CreateView):
     form_class = NewsForm
     template_name = 'news/add_news.html'
     # success_url = reverse_lazy('home')
