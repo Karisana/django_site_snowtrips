@@ -5,10 +5,10 @@ from testsite import settings
 from .views import *
 
 urlpatterns = [
-    # path('', index, name='home'),
-    path('', HomeNews.as_view(), name='home'),
-    path('', more_views, name='news_sorted_views'),
-
+    path('', index, name='home'),
+    # path('', HomeNews.as_view(), name='home'),
+    # path('', more_views, name='news_sorted_views'),
+    #
     path('test/', more_views, name='news_sorted_views'),
     # path('cat/<int:category_id>/', get_category, name='category'),
     path('cat/<int:category_id>/', NewsByCategory.as_view(extra_context={'title': 'Какой-то title'}), name='category'),

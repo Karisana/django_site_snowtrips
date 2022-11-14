@@ -7,20 +7,17 @@ from .forms import NewsForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 
+def index(request):
+    news = News.objects.order_by('-created_at')  # сортировка новостей в обратном порядке
+    news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")
 
-class HomeNews(ListView):
-    model = News
-    template_name = 'news/news_list.html'
-    context_object_name = 'news'
-    # paginate_by = 6
+    context = {
+        'news': news,
+        'title': 'Список новостей',
+        'news_sorted_views':news_sorted_views,
+    }
 
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['title'] = 'Главная страница'
-        return context
-
-    def get_queryset(self):
-        return News.objects.filter(is_published=True).select_related('category')
+    return render(request, 'news/news_list.html', context)
 
 
 class NewsByCategory(ListView):
@@ -77,9 +74,7 @@ class MoreViews(ListView):
 
 def more_views(request):
     news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")
-    return render(request,  'news_list.html', {'news_sorted_views': news_sorted_views})
-
-
+    return render(request, 'news_list.html', {'news_sorted_views': news_sorted_views})
 
 # def issue(request, news_id):
 #     next = get_object_or_404(News, pk=news_id)
@@ -87,20 +82,6 @@ def more_views(request):
 #     # prev_issue = News.objects.filter(title=title).filter(pk__lt=issue.number)[0:1]
 #     next = News.objects.filter(title=title, number__gt=next.number).order_by('pk').first()
 #     return render(request, 'news/add_news.html', {'next': next})
-
-
-# class Recommended(ListView):
-#     model = News
-#     templates_name = 'news/test.html'
-# paginate_by = 2
-#
-# def get_context_data(self, *, object_list=None, **kwargs):
-#     context = super().get_context_data(**kwargs)
-#     context['title'] = 'Рекомендуемые новости'
-#     return context
-
-# def get_queryset(self):
-#     return News.objects.filter(recommended=True).select_related('category')
 
 #
 # class PostListView(ListView):
@@ -122,15 +103,7 @@ def more_views(request):
 #         form = NewsForm()
 #     return render(request, 'news/add_news.html', {'form': form})
 
-# def index(request):
-#     news = News.objects.order_by('-created_at')  # сортировка новостей в обратном порядке
-#     categories = Category.objects.all()
-#     context = {
-#         'news': news,
-#         'title': 'Список новостей',
-#     }
-#
-#     return render(request, 'news/index.html', context)
+
 # from django.shortcuts import render
 
 
