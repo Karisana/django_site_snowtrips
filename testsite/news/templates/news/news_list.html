@@ -12,10 +12,12 @@
 
 <div class="news">
 
+<!--	<h3 class="col-sm-6 mb-4 mt-4">Основные новости</h3>-->
+	<div class="">
 	<div class="row">
 		<div class="col-8">
-			<h3 class="col-sm-6 mb-4 mt-4">Основные новости</h3>
 			<div class="row">
+				<h2 style="text-align: center; margin: 2rem">Основные новости:</h2>
 				{% for item in news %}
 
 			      <div  class="col-lg-6 mb-3 d-flex align-items-stretch" style="margin-bottom: 2rem;">
@@ -41,9 +43,9 @@
 		</div>
 
 		<div class="col-4">
-			<h3 class="mb-4 mt-4">Популярные новости</h3>
+			<h2 style="text-align: center; margin: 2rem">Популярные:</h2>
 			{% for news in news_sorted_views %}
-			         <div class="card " style="max-width: 300px;">
+			         <div class="card " style="">
 			            <div class="card-body">
 				          <a href="{{ news.get_absolute_url }}" class="my_link mb-4 mt-4">
 					          <h5 class="card-title mb-4 mt-4 fw-bold">  {{ news.title }}
@@ -68,6 +70,7 @@
 			          </div>
 			{% endfor %}
 		</div>
+	</div>
 	</div>
 </div>
 
