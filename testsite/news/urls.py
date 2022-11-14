@@ -7,9 +7,8 @@ from .views import *
 urlpatterns = [
     path('', index, name='home'),
     # path('', HomeNews.as_view(), name='home'),
-    # path('', more_views, name='news_sorted_views'),
-    #
-    path('test/', more_views, name='news_sorted_views'),
+    path('register/', register, name='register'),
+    path('login/', login, name='login'),
     # path('cat/<int:category_id>/', get_category, name='category'),
     path('cat/<int:category_id>/', NewsByCategory.as_view(extra_context={'title': 'Какой-то title'}), name='category'),
     # path('news/<int:news_id>/', view_news, name='view_news'),

@@ -8,11 +8,20 @@
         <li class="nav-item m-2">
           <a class="nav-link my_link" href="{% url 'recommended_news' %}">Рекомендуемые</a>
         </li>
+
 	      {% if request.user.is_authenticated %}
 	        <li class="nav-item m-2">
 	          <a class="nav-link my_link" href="{% url 'add_news' %}">Предложить новость</a>
 	        </li>
 	      {% endif%}
+
+	      <li class="nav-item m-2">
+	          <a class="nav-link my_link" href="{% url 'login' %}">Войти</a>
+	      </li>
+	      <li class="nav-item m-2">
+	          <a class="nav-link my_link" href="{% url 'register' %}">Регистрация</a>
+	      </li>
+
       </ul>
     </div>
   </div>

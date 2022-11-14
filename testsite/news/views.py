@@ -6,6 +6,27 @@ from .models import News, Category
 from .forms import NewsForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
+from django.contrib.auth.forms import UserCreationForm
+from  django.contrib import messages
+
+
+def register(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Регистрация прошла успешно')
+            return redirect('login')
+        else:
+            messages.error(request, 'Регистрация НЕ прошла успешно.')
+    else:
+        form = UserCreationForm()
+    return render(request, 'news/register.html', {'form': form} )
+
+
+def login(request):
+    return render(request, 'news/login.html')
+
 
 def index(request):
     news = News.objects.order_by('-created_at')  # сортировка новостей в обратном порядке
@@ -14,7 +35,7 @@ def index(request):
     context = {
         'news': news,
         'title': 'Список новостей',
-        'news_sorted_views':news_sorted_views,
+        'news_sorted_views': news_sorted_views,
     }
 
     return render(request, 'news/news_list.html', context)
@@ -69,12 +90,14 @@ class MoreViews(ListView):
 
     def get_queryset(self):
         return News.objects.aggregate(Max('views')).filter
-    #
 
 
 def more_views(request):
     news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")
     return render(request, 'news_list.html', {'news_sorted_views': news_sorted_views})
+
+
+
 
 # def issue(request, news_id):
 #     next = get_object_or_404(News, pk=news_id)
