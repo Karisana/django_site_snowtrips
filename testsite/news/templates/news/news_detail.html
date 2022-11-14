@@ -13,6 +13,7 @@
 {% block content %}
 
 
+
 <div style="margin-bottom: 2rem;">
 		<img class="card-img-top" src="{{ news_item.photo.url }}" style="height: 40rem; width: 100%;  object-fit: cover;">
 
@@ -35,9 +36,18 @@
 	    </div>
 
 </div>
-		<div>
-			<div class="preview_news">
+
+{% if is_paginated %}
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">next</a>
+    {% endif %}
+{% endif %}
+		<div class="preview_news">
 				<a href="" >
+
 					<img class="" src="{% static 'img/btn-prev-blocco6.png' %}" alt="next">
 				</a>
 			</div>
@@ -46,6 +56,10 @@
 					<img class="" src="{% static 'img/btn-next-blocco6.png' %}" alt="preview">
 				</a>
 			</div>
+
 		</div>
 
+
+
 {% endblock %}
+

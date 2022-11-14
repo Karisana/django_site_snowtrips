@@ -5,13 +5,13 @@ from .models import News, Category
 
 
 class NewsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title',  'category', 'created_at', 'is_published', 'get_photo')
+    list_display = ('id', 'title',  'category','recommended', 'created_at', 'is_published', 'get_photo')
     list_display_links = ('id', 'title')
     search_fields = ('title', 'content')
     list_editable = ('is_published',)
     list_filter = ('is_published', 'category')
 
-    fields = ('title',  'category', 'content','photo','get_photo', 'views','is_published','created_at',)
+    fields = ('title',  'category','recommended', 'content','photo','get_photo', 'views','is_published','created_at',)
     readonly_fields = ('get_photo', 'views','created_at',)
 
     save_on_top = True

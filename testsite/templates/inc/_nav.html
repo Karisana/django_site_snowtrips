@@ -6,7 +6,7 @@
           <a class="nav-link active my_link" aria-current="page" href="{% url 'home' %}">Главные новости</a>
         </li>
         <li class="nav-item m-2">
-          <a class="nav-link my_link" href="{% url 'home' %}">Рекомендуемые</a>
+          <a class="nav-link my_link" href="{% url 'recommended_news' %}">Рекомендуемые</a>
         </li>
 	      {% if request.user.is_authenticated %}
 	        <li class="nav-item m-2">

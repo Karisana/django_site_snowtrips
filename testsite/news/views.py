@@ -1,3 +1,4 @@
+from django.db.models import Max, Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
@@ -7,19 +8,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 
 
-def test(request):
-    objects = ['john1', 'paul2', 'george3', 'ringo4', ' john5', 'paul6', 'george7']
-    paginator = Paginator(objects, 2)
-    page_num = request.GET.get('page', 1)
-    page_objects = paginator.get_page(page_num)
-    return render(request, 'news/test.html/', {"page_obj": page_objects})
-
-
 class HomeNews(ListView):
     model = News
     template_name = 'news/news_list.html'
     context_object_name = 'news'
-    paginate_by = 6
+    # paginate_by = 6
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -35,8 +28,7 @@ class NewsByCategory(ListView):
     # template_name = 'news/home_news_list.html'
     context_object_name = 'news'
     paginate_by = 2
-
-    allow_empty = False  # разрешаем показ пустых списков
+    allow_empty = False  # не разрешаем показ пустых списков
 
     def get_queryset(self):
         return News.objects.filter(category_id=self.kwargs['category_id'], is_published=True).select_related('category')
@@ -49,15 +41,74 @@ class NewsByCategory(ListView):
 
 class ViewNews(DetailView):
     model = News
+    template_name = 'news/news_detail.html'
     context_object_name = 'news_item'
-    # pk_url_kwarg = 'news_id'
 
 
 class CreateNews(LoginRequiredMixin, CreateView):
     form_class = NewsForm
     template_name = 'news/add_news.html'
-    # success_url = reverse_lazy('home')
     login_url = '/admin/'
+
+
+class RecommendedNews(ListView):
+    model = News
+    template_name = 'news/recom_news.html'
+    context_object_name = 'recommended_news'
+
+    def get_queryset(self):
+        return News.objects.filter(recommended=True).select_related('category')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Рекомендуемые новости ГЛЦ'
+        return context
+
+
+class MoreViews(ListView):
+    model = News
+    template_name = 'news/test.html'
+    context_object_name = 'max_views_news'
+
+    def get_queryset(self):
+        return News.objects.aggregate(Max('views')).filter
+    #
+
+
+def more_views(request):
+    news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")
+    return render(request,  'news_list.html', {'news_sorted_views': news_sorted_views})
+
+
+
+# def issue(request, news_id):
+#     next = get_object_or_404(News, pk=news_id)
+#     title = News.objects.filter(issue=issue)
+#     # prev_issue = News.objects.filter(title=title).filter(pk__lt=issue.number)[0:1]
+#     next = News.objects.filter(title=title, number__gt=next.number).order_by('pk').first()
+#     return render(request, 'news/add_news.html', {'next': next})
+
+
+# class Recommended(ListView):
+#     model = News
+#     templates_name = 'news/test.html'
+# paginate_by = 2
+#
+# def get_context_data(self, *, object_list=None, **kwargs):
+#     context = super().get_context_data(**kwargs)
+#     context['title'] = 'Рекомендуемые новости'
+#     return context
+
+# def get_queryset(self):
+#     return News.objects.filter(recommended=True).select_related('category')
+
+#
+# class PostListView(ListView):
+#     model = News
+#     template_name = 'news_item'
+#     paginate_by = 5
+#     queryset = News.objects.order_by('-created_at')
+
 
 # Форма связанная с моделью:
 # def add_news(request):
@@ -80,10 +131,19 @@ class CreateNews(LoginRequiredMixin, CreateView):
 #     }
 #
 #     return render(request, 'news/index.html', context)
+# from django.shortcuts import render
+
 
 # def view_news(request, news_id):
-#     news_item = get_object_or_404(News, pk=news_id)
-#     return render(request, 'news/view_news.html', {'news_item': news_item})
+#     # news_item = get_object_or_404(News, pk=news_id)
+#     news = News.objects.all()
+#
+#     news_item = news.filter(pk=news_id)
+#     paginator = Paginator(news, 1)
+#     page_number = request.GET.get('page')
+#     page_obj = paginator.get_page(page_number)
+#
+#     return render(request, 'news/view_news.html', {'page_obj': page_obj, 'news_item': news_item, 'news':news})
 
 # def get_category(request, category_id):
 #     news = News.objects.filter(category_id=category_id)

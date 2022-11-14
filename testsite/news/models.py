@@ -29,7 +29,7 @@ class News(models.Model):
     title = models.CharField(max_length=120, verbose_name='Наименование новости')
     content = models.TextField(blank=False, verbose_name='Контент')
     quotation = models.TextField(blank=False, verbose_name='Короткая цитата новости', null=True)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
+    created_at = models.DateTimeField(verbose_name='Опубликовано')
     update_at = models.DateTimeField(auto_now=True, verbose_name='Обновлено')
     photo = models.ImageField(
         upload_to='photo/%Y/%m/%d/', verbose_name='Фото',
@@ -37,6 +37,7 @@ class News(models.Model):
         blank=False)
 
     is_published = models.BooleanField(default=True, verbose_name='Опубликовано')
+    recommended = models.BooleanField(default=False, verbose_name='В рекомендуемое?')
     category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True,
                                  verbose_name='Категория')
     views = models.IntegerField(default=0)

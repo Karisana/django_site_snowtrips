@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block title %}
 {{ title }}
 {% endblock %}
@@ -8,14 +8,9 @@
 
 {% block content %}
 
-
-
-<div class="news">
-
-	<div class="row row-cols-1 row-cols-md-2 g-4 ">
-		{% for item in news %}
-	      <div style="margin-bottom: 2rem;">
-	       <div class="col">
+<div class="row row-cols-1 g-4 ">
+{% for item in recommended_news %}
+	       <div class="col mb-5">
 	         <div class="card">
 
 		        <img class="card-img-top" src="{{ item.photo.url }}" style="height: 18rem; width: 100%;  object-fit: cover;">
@@ -23,7 +18,7 @@
                 <p class="mb-4 mt-4"> Категория: <a class="my_link" href="{% url 'category' item.category.pk %}">{{ item.category }} </a><p>
 
 	              <h5 class="card-title mb-4 mt-4 fw-bold">  {{ item.title }}</h5>
-	              <p class="card-text my-card-text mb-3 mt-3">{{ item.content|linebreaksbr|truncatewords:15}}</p>
+	              <p class="card-text my-card-text mb-3 mt-3">{{ item.quotation|linebreaksbr}}</p>
 		          <a href="{{ item.get_absolute_url }}" class="my_link mb-4 mt-4">Прочитать новость полностью</a>
 	            </div>
 
@@ -33,14 +28,24 @@
 
 	          </div>
 	       </div>
-	      </div>
-		{% endfor %}
-	</div>
+{% endfor %}
 </div>
 
+<!--    <div class="recommended-news">-->
+
+<!--	    <div class="recommended-news-right">-->
+<!--		    <div class="recommended-news-card">-->
+<!--			    <h5 class="card-title mb-4 mt-4"> {{ item.title }} </h5>-->
+<!--			    <p class="card-text mb-4 mt-4">{{ item.content|linebreaksbr|truncatewords:25}}</p>-->
+<!--			    <a href="{{ item.get_absolute_url }}" class="my_link mb-4 mt-4">Прочитать новость полностью</a>-->
+<!--			    <hr>-->
+<!--			    <div class="text-muted ">{{ item.created_at |date:'d/m/Y H:i' }} </div>-->
+<!--		    </div>-->
+
+<!--	    </div>-->
+<!--    </div>-->
+
+
+
 {% endblock %}
-
-
-
-
 

@@ -8,29 +8,51 @@
 {% block content %}
 
 <div style="margin-bottom: 2rem;">
-		<img class="card-img-top" src="{{ news_item.photo.url }}" style="height: 40rem; width: 100%;  object-fit: cover;">
 
-	    <div class="mb-4 mt-4">
-		    <p class=""> Категория:
-			    <a class="my_link" href="{% url 'category' item.category.pk %}">{{ news_item.category }}</a>
-		    <p>
-	    </div>
 
-	    <h5 class="card-title mb-4 mt-4 fw-bold">  {{ news_item.title }}</h5>
+		{% for item in news_item %}
+		<img class="card-img-top" src="{{ item.photo.url }}" style="height: 40rem; width: 100%;  object-fit: cover;">
+
+
+	    <h5 class="card-title mb-4 mt-4 fw-bold">  {{ item.title }}</h5>
 
 	    <p class="card-text my-card-text mb-4 mt-4">
-		    {{ news_item.content|linebreaksbr}}
+		    {{ item.content|linebreaksbr}}
 	    </p>
 
 		<hr>
 
 	    <div class=" text-muted ">
-	        {{ news_item.created_at |date:'d/m/Y H:i' }}
+	        {{ item.created_at |date:'d/m/Y H:i' }}
 	    </div>
-	<div>
-		<button href="">Вперед</button>
-		<button href="">Назад</button>
-	</div>
+		{% endfor %}
+
+	    {% for btm in news %}
+		<div class="pagination">
+	    <span class="step-links">
+	        {% if btm.has_previous %}
+	            <a href="?page=1">&laquo; first</a>
+	            <a href="?page={{ btm.previous_page_number }}">previous</a>
+	        {% endif %}
+
+	        <span class="current">
+	            Page {{ btm.number }} of {{ btm.paginator.num_pages }}.
+	        </span>
+
+	        {% if btm.has_next %}
+	            <a href="?page={{ btm.next_page_number }}">next</a>
+	            <a href="?page={{ item.paginator.num_pages }}">last &raquo;</a>
+	        {% endif %}
+	    </span>
+		</div>
+			{% endfor %}
+
+
+
+
+
+
+
 </div>
 
 {% endblock %}
