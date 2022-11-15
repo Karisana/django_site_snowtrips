@@ -3,28 +3,44 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import News, Category
-from .forms import NewsForm, UserRegisterForm
+from .forms import NewsForm, UserRegisterForm, UserLoginForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.contrib import messages
+from django.contrib.auth import login, logout
 
 
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             messages.success(request, 'Регистрация прошла успешно')
-            return redirect('login')
+            return redirect('home')
         else:
             messages.error(request, 'Регистрация НЕ прошла успешно.')
     else:
         form = UserRegisterForm()
-    return render(request, 'news/register.html', {'form': form} )
+    return render(request, 'news/register.html', {'form': form})
 
 
-def login(request):
-    return render(request, 'news/login.html')
+def user_login(request):
+    if request.method == 'POST':
+        form = UserLoginForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
+            # получить данные и авторизовать пользователя ^ user -объект автор. пользователя
+    else:
+        form = UserLoginForm()
+    return render(request, 'news/login.html', {'form': form})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('login')
 
 
 def index(request):
@@ -98,9 +114,6 @@ class MoreViews(ListView):
 def more_views(request):
     news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")
     return render(request, 'news_list.html', {'news_sorted_views': news_sorted_views})
-
-
-
 
 # def issue(request, news_id):
 #     next = get_object_or_404(News, pk=news_id)
