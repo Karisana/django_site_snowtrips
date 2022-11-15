@@ -15,10 +15,10 @@
 <!--	<h3 class="col-sm-6 mb-4 mt-4">Основные новости</h3>-->
 	<div class="">
 	<div class="row">
-		<div class="col-8">
+		<div class="col">
 			<div class="row">
-				<h2 style="text-align: center; margin: 2rem">Основные новости:</h2>
-				{% for item in news %}
+				<h3 style="text-align: center; margin-bottom: 2rem">Основные новости:</h3>
+				{% for item in page_obj %}
 
 			      <div  class="col-lg-6 mb-3 d-flex align-items-stretch" style="margin-bottom: 2rem;">
 			         <div class="card">
@@ -42,22 +42,22 @@
 			</div>
 		</div>
 
-		<div class="col-4">
-			<h2 style="text-align: center; margin: 2rem">Популярные:</h2>
+		<div class="col col-lg-2">
+			<h3 style="text-align: center; margin-bottom: 2rem">Популярные:</h3>
 			{% for news in news_sorted_views %}
 			         <div class="card " style="">
 			            <div class="card-body">
 				          <a href="{{ news.get_absolute_url }}" class="my_link mb-4 mt-4">
-					          <h5 class="card-title mb-4 mt-4 fw-bold">  {{ news.title }}
+					          <h5 class="card-title mb-4 mt-4 fw-bold" style="font-size: 1em">  {{ news.title }}
 					          </h5>
 				          </a>
 			            </div>
 
 			            <div class="card-footer text-muted" style="display:flex; flex-direction:row; justify-content: space-between">
-				            <div style="display:flex">
-				            {{ news.created_at |date:'d/m/Y H:i' }}
+				            <div style="display:flex;  font-size: 0.7em;">
+				            {{ news.created_at |date:'d/m H:i' }}
 				            </div>
-				            <div style="display:flex; flex-direction: row; align-items: center;">
+				            <div style="display:flex; flex-direction: row; align-items: center; font-size: 0.7em;">
 					        <svg  style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
 							  <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
 							  <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>

@@ -3,16 +3,15 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import News, Category
-from .forms import NewsForm
+from .forms import NewsForm, UserRegisterForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from django.contrib.auth.forms import UserCreationForm
-from  django.contrib import messages
+from django.contrib import messages
 
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = UserRegisterForm(request.POST)
         if form.is_valid():
             form.save()
             messages.success(request, 'Регистрация прошла успешно')
@@ -20,7 +19,7 @@ def register(request):
         else:
             messages.error(request, 'Регистрация НЕ прошла успешно.')
     else:
-        form = UserCreationForm()
+        form = UserRegisterForm()
     return render(request, 'news/register.html', {'form': form} )
 
 
@@ -29,13 +28,17 @@ def login(request):
 
 
 def index(request):
-    news = News.objects.order_by('-created_at')  # сортировка новостей в обратном порядке
-    news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")
+    news = News.objects.order_by('-created_at')
+    news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")[:6]
+    pagination = Paginator(news, 6)
+    page_number = request.GET.get('page')
+    page_obj = pagination.get_page(page_number)
 
     context = {
         'news': news,
         'title': 'Список новостей',
         'news_sorted_views': news_sorted_views,
+        'page_obj': page_obj,
     }
 
     return render(request, 'news/news_list.html', context)

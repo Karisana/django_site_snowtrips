@@ -2,6 +2,38 @@ from .models import News, Category
 from django import forms
 import re
 from django.core.exceptions import ValidationError
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+
+class UserRegisterForm(UserCreationForm):
+    username = forms.CharField(max_length=100, label='Логин',
+                               help_text='Обязательное поле. Не более 100 символов. Только буквы, цифры и символы '
+                                         '@/./+/-/_.',
+                               widget=forms.TextInput(attrs={'class': 'form-control'}))
+    first_name = forms.CharField(min_length=3, max_length=40, label='Имя пользователя',
+                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+    password1 = forms.CharField(label='Пароль',
+                                help_text='Пароль не должен быть слишком похож на другую вашу личную информацию.\n'
+                                          'Ваш пароль должен содержать как минимум 8 символов.\n'
+                                          'Пароль не должен быть слишком простым и распространенным.\n'
+                                          'Пароль не может состоять только из цифр.',
+                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    password2 = forms.CharField(label='Повторите пароль', help_text='Введите пароль ещё раз для подтверждения.',
+                                widget=forms.PasswordInput(attrs={'class': 'form-control'}))
+    email = forms.EmailField(label='Email',
+                             widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'email', 'password1', 'password2')
+        # widgets = {
+        #     'username': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+        #     'id_email': forms.EmailInput(attrs={'class': 'form-control'}),
+        #     'password1': forms.PasswordInput(attrs={'class': 'form-control'}),
+        #     'password2': forms.PasswordInput(attrs={'class': 'form-control'}),
+        # }
 
 
 class NewsForm(forms.ModelForm):
@@ -31,7 +63,7 @@ class NewsForm(forms.ModelForm):
     def clean_title(self):
         title = self.cleaned_data['title']
         if len(title) > 120 or len(title) < 10:
-        # if re.match(r'\d', title):
+            # if re.match(r'\d', title):
             raise ValidationError('Длина заголовка должна быть больше 10, но не больше 120 символов')
         return title
 
@@ -46,7 +78,6 @@ class NewsForm(forms.ModelForm):
         if len(content) > 5000 or len(content) < 300:
             raise ValidationError('Длина цитаты должна быть больше 300, но не больше 5000 символов')
         return content
-
 
 # не связанная c моделью форма  :
 
