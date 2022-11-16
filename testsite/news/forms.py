@@ -5,6 +5,19 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 
+class ContactForm(forms.Form):
+    first_name = forms.CharField(max_length=200, label='Ваше имя:',
+                                 widget=forms.TextInput(attrs={'class': 'form-control'}))
+    subject = forms.CharField(min_length=30,max_length=200, label='Тема письма:',
+                              help_text='Обязательное поле. Минимум 30, но не более 200 символов.',
+                              widget=forms.TextInput(attrs={'class': 'form-control'}))
+    content = forms.CharField(max_length=5000, label='Текст письма:',
+                              help_text='Обязательное поле. Не более 5000 символов.',
+                              widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
+    email = forms.EmailField(label='Email',
+                                     widget=forms.EmailInput(attrs={'class': 'form-control'}))
+
+
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(max_length=100, label='Логин:',
                                widget=forms.TextInput(attrs={'class': 'form-control'}))

@@ -10,6 +10,7 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
+    path('send_mails/', send_mails, name='send_mails'),
     # path('cat/<int:category_id>/', get_category, name='category'),
     path('cat/<int:category_id>/', NewsByCategory.as_view(extra_context={'title': 'Какой-то title'}), name='category'),
     # path('news/<int:news_id>/', view_news, name='view_news'),
