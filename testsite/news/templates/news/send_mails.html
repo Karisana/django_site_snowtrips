@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+{{ title }}
+{% endblock %}
+
+{% include 'inc/_sidebar.html' %}
+
+{% block content %}
+<h1>Обратная связь. Отправить письмо</h1>
+
+<form method="post">
+	{% csrf_token %}
+
+	<div class="row g-3 align-items-center">
+			{{ form.as_p }}
+	</div>
+
+	<button type="submit" class="btn btn-primary">Отправить</button>
+
+</form>
+{% endblock %}
