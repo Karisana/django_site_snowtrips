@@ -89,7 +89,7 @@ def index(request):
 
 class NewsByCategory(ListView):
     model = News
-    # template_name = 'news/home_news_list.html'
+    template_name = 'news/category.html'
     context_object_name = 'news'
     paginate_by = 2
     allow_empty = False  # не разрешаем показ пустых списков

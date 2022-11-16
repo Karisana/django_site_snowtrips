@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-{{ title }}
+Регистрация
 {% endblock %}
 
-{% include 'inc/_sidebar.html' %}
 
 {% block content %}
-<h1>Регистрация</h1>
+<h1 style="margin-bottom: 25px; text-align: center;">Регистрация</h1>
 
 <form method="post">
 	{% csrf_token %}
@@ -16,7 +15,10 @@
 			{{ form.as_p }}
 	</div>
 
-	<button type="submit" class="btn btn-primary">Регистрация</button>
+	<div class="btn-form">
+		<button type="submit " class="btn btn-form-text">Регистрация</button>
+	</div>
+
 
 </form>
 {% endblock %}

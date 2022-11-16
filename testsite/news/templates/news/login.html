@@ -1,22 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-{{ title }}
+Вход в личный кабинет
 {% endblock %}
 
-{% include 'inc/_sidebar.html' %}
 
 {% block content %}
-<h1>Вход</h1>
+<h1 style="margin-bottom: 25px; text-align: center;">Вход в личный кабинет</h1>
 
-<form method="post">
+<form method="post" class="">
 	{% csrf_token %}
 
-	<div class="row g-3 align-items-center">
+	<div class="row g-3 align-items-center mb-5">
 			{{ form.as_p }}
 	</div>
+	<div class="btn-form">
+		<button type="submit " class="btn btn-form-text">Вход</button>
+	</div>
 
-	<button type="submit" class="btn btn-primary">Вход</button>
 
 </form>
 

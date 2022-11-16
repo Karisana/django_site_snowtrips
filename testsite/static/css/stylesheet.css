@@ -192,7 +192,7 @@ html {
     background-position-x: center;
     background-position-y: bottom;
     width: 100%;
-    height: 800px;
+    height: 900px;
   }
 
   .fixed-top {
@@ -314,3 +314,23 @@ html {
   border-color: #000000 !important;
 }
 
+.btn-form {
+  display: flex;
+  flex-direction: column;
+  background-image:url(../img/buttonnext.png); 
+  background-repeat: no-repeat;
+  background-size:auto;
+  min-height: 161px;
+  background-position: center;
+}
+
+.btn-form-text {
+  color: #ffffff !important;
+  padding: 40px;
+}
+
+.btn-form-text:hover,
+.btn-form-text:active
+ {
+  color: #eed9d9 !important;
+}
