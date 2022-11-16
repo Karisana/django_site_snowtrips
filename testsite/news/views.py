@@ -3,11 +3,38 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
 from .models import News, Category
-from .forms import NewsForm, UserRegisterForm, UserLoginForm
+from .forms import NewsForm, UserRegisterForm, UserLoginForm, ContactForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.core.mail import send_mail, BadHeaderError
+
+
+def send_mails(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST, request.FILES)
+        if form.is_valid():
+
+            body = {
+                'first_name': form.cleaned_data['first_name'],
+                'email': form.cleaned_data['email'],
+                'subject': form.cleaned_data['subject'],
+                'content': form.cleaned_data['content'],
+            }
+            message = "\n\n".join(body.values())
+
+            mail = send_mail(form.cleaned_data['subject'], message,
+                             'testnewsdjanjo@yandex.com', ['haitatsu@ldgr.ru'], fail_silently=False)
+
+            if mail:
+                messages.success(request, 'Отправлено')
+                return redirect('home')
+            else:
+                messages.error(request, 'Ошибка')
+    else:
+        form = ContactForm()
+    return render(request, 'news/send_mails.html', {'form': form})
 
 
 def register(request):
