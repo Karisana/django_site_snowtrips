@@ -195,10 +195,28 @@ html {
     height: 900px;
   }
 
-  .fixed-top {
-    background: #ffffff url(../img/bg-page.jpg) repeat left top !important;
 
-  }
+.section-hero-other {
+  margin: 0 !important;
+  padding: 0 !important;
+  position: relative;
+  overflow: hidden; 
+  background-image: url('../img/bg-blocco7.png');
+  background-repeat: repeat-x;
+  background-size: auto;
+  background-position-x: center;
+  background-position-y: bottom;
+  width: 100%;
+  height: 157px;
+}
+
+
+
+
+.fixed-top {
+  background: #ffffff url(../img/bg-page.jpg) repeat left top !important;
+
+}
   
 
 .hero-menu {

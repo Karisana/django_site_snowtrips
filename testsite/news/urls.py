@@ -6,7 +6,6 @@ from .views import *
 
 urlpatterns = [
     path('', index, name='home'),
-    # path('', HomeNews.as_view(), name='home'),
     path('register/', register, name='register'),
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
@@ -19,6 +18,7 @@ urlpatterns = [
     path('news/add-news/', CreateNews.as_view(), name='add_news'),
     path('news/recommended/', RecommendedNews.as_view(), name='recommended_news'),
  ]
+
 if settings.DEBUG:
     import debug_toolbar
 

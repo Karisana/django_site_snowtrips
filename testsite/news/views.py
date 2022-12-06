@@ -1,4 +1,7 @@
+from turtle import update
+
 from django.db.models import Max, Count
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
@@ -108,6 +111,13 @@ class ViewNews(DetailView):
     template_name = 'news/news_detail.html'
     context_object_name = 'news_item'
 
+    total_views = News.objects.all()
+
+
+def more_views(request):
+    news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")
+    return render(request, 'news_list.html', {'news_sorted_views': news_sorted_views})
+
 
 class CreateNews(LoginRequiredMixin, CreateView):
     form_class = NewsForm
@@ -128,19 +138,13 @@ class RecommendedNews(ListView):
         context['title'] = 'Рекомендуемые новости ГЛЦ'
         return context
 
-
-class MoreViews(ListView):
-    model = News
-    template_name = 'news/test.html'
-    context_object_name = 'max_views_news'
-
-    def get_queryset(self):
-        return News.objects.aggregate(Max('views')).filter
-
-
-def more_views(request):
-    news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")
-    return render(request, 'news_list.html', {'news_sorted_views': news_sorted_views})
+# class TripGroupViews(ListView):
+#     model = TripsGroups
+#     template_name = 'news/trip.html'
+#     context_object_name = 'trip_data'
+#
+#     def get_queryset(self):
+#         return TripGroupViews.objects.all()
 
 # def issue(request, news_id):
 #     next = get_object_or_404(News, pk=news_id)

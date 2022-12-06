@@ -76,6 +76,61 @@ class Category(models.Model):
         verbose_name_plural = 'Категории'
         ordering = ['title']
 
+
+class GroupsTrips(models.Model):
+    trip_date = models.DateField(auto_now=False, verbose_name='Дата поездки')
+    trip_price = models.IntegerField(verbose_name='Стоимость поездки')
+    trip_place = models.ForeignKey('SkiCenters', on_delete=models.PROTECT, null=True,
+                                   verbose_name='Место поездки (выбор ГЛЦ)')
+    trip_name_group = models.ForeignKey('Groups', on_delete=models.PROTECT, null=True,
+                                        verbose_name='Кто едет')
+
+
+class Groups(models.Model):
+    trip_title = models.CharField(max_length=150, verbose_name='Название группы')
+    trip_logo = models.ImageField(upload_to='group_logo/', verbose_name='Лого группы', blank=False)
+    trip_info = models.TextField(max_length=5000, blank=False, verbose_name='Информация о группе')
+    trip_link = models.URLField(max_length=200, verbose_name='Ссылка на группу')
+
+    def __str__(self):
+        return self.trip_title
+
+    def save(self, *args, **kwargs):
+        new_image = compress(self.trip_logo)
+        self.trip_logo = new_image
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Выезды с группой'
+        verbose_name_plural = 'Выезды с группой'
+        ordering = ['trip_title']
+
+
+class SkiCenters(models.Model):
+    ski_name = models.CharField(max_length=120, db_index=True, verbose_name='Название ГЛЦ')
+    ski_info = models.TextField(max_length=5000, blank=False, verbose_name='Информация о ГЛЦ')
+    ski_img_one = models.ImageField(upload_to='ski_img/', verbose_name='Фото ГЛЦ 1', blank=False)
+    ski_img_two = models.ImageField(upload_to='ski_img/', verbose_name='Фото ГЛЦ 2', blank=False)
+    ski_img_three = models.ImageField(upload_to='ski_img/', verbose_name='Фото ГЛЦ 3', blank=False)
+    ski_link = models.URLField(max_length=200, verbose_name='Ссылка на ГЛЦ')
+
+    def get_absolute_url(self):
+        return reverse('ski_name', kwargs={'ski_name': self.pk})
+
+    def __str__(self):
+        return self.ski_name
+
+    class Meta:
+        verbose_name = 'Наименование места поездки'
+        ordering = ['ski_name']
+
+# def get_text(url):
+#     rs = requests.get(url)
+#     root = BeautifulSoup(rs.content, 'html.parser')
+#     article = root.select_one('article')
+#     return article.text
+
+
 # class Pubished(models.Model):
 #     # эта модель будет связана с верхней NEWS через ForeignKey
 #     title = models.CharField(max_length=120, db_index=True, verbose_name='Опубликовано?')
