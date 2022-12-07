@@ -1,3 +1,4 @@
+import datetime
 from io import BytesIO
 
 from django.core.files import File
@@ -78,12 +79,18 @@ class Category(models.Model):
 
 
 class GroupsTrips(models.Model):
-    trip_date = models.DateField(auto_now=False, verbose_name='Дата поездки')
+    date_start = models.DateField(blank=True, null=True, verbose_name='Дата начала поездки')
+    date_end = models.DateField(blank=True, null=True, verbose_name='Дата окончания поездки')
+    trip_text = models.TextField(max_length=1000, blank=True, verbose_name='Дополнительная инфа по поездке')
     trip_price = models.IntegerField(verbose_name='Стоимость поездки')
     trip_place = models.ForeignKey('SkiCenters', on_delete=models.PROTECT, null=True,
                                    verbose_name='Место поездки (выбор ГЛЦ)')
     trip_name_group = models.ForeignKey('Groups', on_delete=models.PROTECT, null=True,
                                         verbose_name='Кто едет')
+
+    class Meta:
+        verbose_name = 'ГЛЦ - Расписание поездок'
+        verbose_name_plural = 'ГЛЦ - Расписание поездок'
 
 
 class Groups(models.Model):
@@ -101,8 +108,8 @@ class Groups(models.Model):
         super().save(*args, **kwargs)
 
     class Meta:
-        verbose_name = 'Выезды с группой'
-        verbose_name_plural = 'Выезды с группой'
+        verbose_name = 'ГЛЦ - Группы'
+        verbose_name_plural = 'ГЛЦ - Группы'
         ordering = ['trip_title']
 
 
@@ -121,7 +128,8 @@ class SkiCenters(models.Model):
         return self.ski_name
 
     class Meta:
-        verbose_name = 'Наименование места поездки'
+        verbose_name = 'ГЛЦ - инфа'
+        verbose_name_plural = 'ГЛЦ - инфа'
         ordering = ['ski_name']
 
 # def get_text(url):

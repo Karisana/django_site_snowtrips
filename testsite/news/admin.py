@@ -46,9 +46,8 @@ class GroupsAdmin(admin.ModelAdmin):
 
 
 class GroupsTripsAdmin(admin.ModelAdmin):
-    list_display = ('trip_date', 'trip_price', 'trip_place', 'trip_name_group')
-    list_display_links = ('trip_date', 'trip_name_group')
-    search_fields = ('trip_date',)
+    list_display = ('date_start', 'trip_price', 'trip_place', 'trip_name_group')
+    search_fields = ('date_start',)
 
 
 admin.site.register(News, NewsAdmin)
