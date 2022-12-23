@@ -5,19 +5,27 @@
   <div class="container d-flex flex-wrap ">
 
       <ul class="nav me-auto">
+	    <li class="nav-item m-2">
+	      <a class="nav-link my_link" aria-current="page" href="{% url 'home' %}">Новости</a>
+	    </li>
+
         <li class="nav-item m-2">
-          <a class="nav-link my_link" aria-current="page" href="{% url 'home' %}">Главные новости</a>
+          <a class="nav-link my_link" aria-current="page" href="{% url 'glc' %}">Горнолыжки Урала</a>
         </li>
 
         <li class="nav-item m-2">
-          <a class="nav-link my_link" href="{% url 'recommended_news' %}">Рекомендуемые</a>
+          <a class="nav-link my_link" href="{% url 'groups' %}">Туры в ГЛЦ</a>
+        </li>
+
+	      <li class="nav-item m-2">
+          <a class="nav-link my_link" href="{% url 'recommended_news' %}">Расписание туров в ГЛЦ</a>
         </li>
 
 
 
       {% if request.user.is_authenticated %}
         <li class="nav-item m-2">
-          <a class="nav-link my_link" href="{% url 'add_news' %}">Предложить новость</a>
+          <a class="nav-link my_link" href="{% url 'add_news' %}">Добавить расписание</a>
         </li>
 	  {% else %}
 	    <li class="nav-item m-2">

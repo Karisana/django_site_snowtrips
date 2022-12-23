@@ -17,7 +17,15 @@ urlpatterns = [
     # path('news/add-news/', add_news, name='add_news'),
     path('news/add-news/', CreateNews.as_view(), name='add_news'),
     path('news/recommended/', RecommendedNews.as_view(), name='recommended_news'),
- ]
+
+    path('glc/', AllGlc.as_view(), name='glc'),
+    # path('glc/<int:glc_id>/', AllGlc.as_view(), name='glc'),
+    path('glc/groups/', all_groups, name='groups'),
+
+    # path('trip/', trip, name='trip'),
+
+
+]
 
 if settings.DEBUG:
     import debug_toolbar

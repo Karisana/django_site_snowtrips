@@ -1,7 +1,7 @@
 from django import template
 from django.db.models import Count, F
 
-from news.models import Category
+from news.models import Category, SkiCenters
 
 register = template.Library()
 
@@ -13,9 +13,17 @@ def get_categories():
 
 @register.inclusion_tag('news/list_categories.html')
 def show_categories(arg1='Hello', arg2='world'):
-    # categories = cache.get('categories')
-    # if not categories:
-    #     categories = Category.objects.annotate(cnt=Count('news', filter=F('news__is_published'))).filter(cnt__gt=0)
-    #     cache.set('categories', categories, 30)
     categories = Category.objects.annotate(cnt=Count('news', filter=F('news__is_published'))).filter(cnt__gt=0)
     return {"categories": categories, "arg1": arg1, "arg2": arg2}
+
+
+@register.simple_tag(name='get_name_glc')
+def get_name_glc():
+    return SkiCenters.objects.all()
+
+
+@register.inclusion_tag('news/list_categories.html')
+def show_glc(arg1='Hello', arg2='world'):
+    names_gls = SkiCenters.objects.annotate(Count('ski_name'))
+    return {"gls": names_gls, "arg1": arg1, "arg2": arg2}
+

@@ -7,17 +7,6 @@ from django.urls import reverse
 from PIL import Image
 
 
-# описываем атрибуты моделей (соотв поля в таблице бд) В моделе будет описываться таблица..
-# Создавать поля/колонки в таблицах: id -  INT - создается сам автоматически,если не создаем
-#                                    title - Varchar
-#                                    content - Text
-#                                    created_at - DateTime
-#                                    update_at - DateTime
-#                                    photo - image
-#                                    is_published - Boolean
-#  (поля для таблицы новостей) и тп. нельзя использоть заимсв поля/нейминг
-# должен быть обязательно подклассом
-
 def compress(image):
     im = Image.open(image)
     im_io = BytesIO()
@@ -84,8 +73,8 @@ class GroupsTrips(models.Model):
     trip_text = models.TextField(max_length=1000, blank=True, verbose_name='Дополнительная инфа по поездке')
     trip_price = models.IntegerField(verbose_name='Стоимость поездки')
     trip_place = models.ForeignKey('SkiCenters', on_delete=models.PROTECT, null=True,
-                                   verbose_name='Место поездки (выбор ГЛЦ)')
-    trip_name_group = models.ForeignKey('Groups', on_delete=models.PROTECT, null=True,
+                                   verbose_name='Место поездки (выбор ГЛЦ)', related_name="glc")
+    trip_name_group = models.ForeignKey('Groups', on_delete=models.PROTECT, null=True,  related_name="groups",
                                         verbose_name='Кто едет')
 
     class Meta:
@@ -94,7 +83,7 @@ class GroupsTrips(models.Model):
 
 
 class Groups(models.Model):
-    trip_title = models.CharField(max_length=150, verbose_name='Название группы')
+    trip_title = models.CharField(max_length=150, db_index=True, verbose_name='Название группы')
     trip_logo = models.ImageField(upload_to='group_logo/', verbose_name='Лого группы', blank=False)
     trip_info = models.TextField(max_length=5000, blank=False, verbose_name='Информация о группе')
     trip_link = models.URLField(max_length=200, verbose_name='Ссылка на группу')
@@ -118,11 +107,10 @@ class SkiCenters(models.Model):
     ski_info = models.TextField(max_length=5000, blank=False, verbose_name='Информация о ГЛЦ')
     ski_img_one = models.ImageField(upload_to='ski_img/', verbose_name='Фото ГЛЦ 1', blank=False)
     ski_img_two = models.ImageField(upload_to='ski_img/', verbose_name='Фото ГЛЦ 2', blank=False)
-    ski_img_three = models.ImageField(upload_to='ski_img/', verbose_name='Фото ГЛЦ 3', blank=False)
     ski_link = models.URLField(max_length=200, verbose_name='Ссылка на ГЛЦ')
 
     def get_absolute_url(self):
-        return reverse('ski_name', kwargs={'ski_name': self.pk})
+        return reverse('glc', kwargs={'glc_id': self.pk})
 
     def __str__(self):
         return self.ski_name

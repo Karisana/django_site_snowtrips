@@ -2,50 +2,42 @@ import bs4
 from django.test import TestCase
 from bs4 import BeautifulSoup
 import requests
-
-def get_text(url):
-    rs = requests.get(url)
-    root = BeautifulSoup(rs.content, 'html.parser')
-    return root.text.split('\n')
+import cfscrape
 
 
-url = 'https://vk.com/zalesom.trip?w=wall-49741741_3728'
-text = get_text(url)
-
-values = ['', ' ', ]
-
-new_text = [value for value in text if value not in values]
+# def get_text(url):
+#     rs = requests.get(url)
+#     root = BeautifulSoup(rs.content, 'html.parser')
+#     return root.text.split('\n')
 
 
-max_string = max(new_text, key=len)
-print(max_string)
+# url = 'https://vk.com/zalesom.trip?w=wall-49741741_3728'
+# text = get_text(url)
+#
+# values = ['', ' ', ]
+#
+# new_text = [value for value in text if value not in values]
+#
+#
+# max_string = max(new_text, key=len)
+# print(max_string)
 
 
 
-class NewsAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'category', 'recommended', 'created_at', 'is_published', 'get_photo')
-    list_display_links = ('id', 'title')
-    search_fields = ('title', 'content')
-    list_editable = ('is_published',)
-    list_filter = ('is_published', 'category')
+from lxml import html
 
-    fields = (
-        'title', 'category', 'recommended', 'content', 'photo', 'get_photo', 'views', 'is_published', 'created_at',)
-    readonly_fields = ('get_photo', 'views', 'created_at',)
+url = 'https://adzhigardak.ru/novosti'
 
-    save_on_top = True
+headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+page = requests.get(url, headers=headers)
+# print(page.content)
+print(page.status_code)
 
-    def get_photo(self, obj):
-        if obj.photo:
-            return mark_safe(f'<img src="{obj.photo.url}" width = "100px">')
-        else:
-            return 'Фото не загружено'
+soup = BeautifulSoup(page.content, 'html.parser')
+print(soup.title)
+print(soup.title.name)
+print(soup.title.parent.name)
 
-    # get_photo. = 'Миниатюра фото'
-    get_photo.short_description = 'Миниатюра'
+test = soup.find('div', class_ = 't-feed__col-grid__post-wrapper')
+print(test)
 
-
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title')
-    list_display_links = ('id', 'title')
-    search_fields = ('title',)

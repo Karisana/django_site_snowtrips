@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+{% endblock %}
+
+
+{% block content %}
+
+<div>
+	<h3 class="mb-4 mt-4">Расписание выездов на ГЛЦ</h3>
+	{% for data in trips %}
+	         <div class="card " style="max-width: 300px;">
+	            <div class="card-body">
+			          <h5 class="card-title mb-4 mt-4 fw-bold">  {{ data.trip_name_group }}
+			          </h5>
+
+	            </div>
+
+	            <div class="card-footer text-muted" style="display:flex; flex-direction:row; justify-content: space-between">
+		            <div style="display:flex">
+		            {{ data.date_start |date:'d/m/Y' }}
+		            </div>
+
+		            </div>
+	            </div>
+
+
+	          </div>
+	{% endfor %}
+</div>
+{% endblock %}

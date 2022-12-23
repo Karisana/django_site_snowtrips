@@ -5,7 +5,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from django.urls import reverse_lazy
-from .models import News, Category
+from .models import News, Category, GroupsTrips, Groups, SkiCenters
 from .forms import NewsForm, UserRegisterForm, UserLoginForm, ContactForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
@@ -90,6 +90,42 @@ def index(request):
     return render(request, 'news/news_list.html', context)
 
 
+class AllGlc(ListView):
+    model = SkiCenters
+    template_name = 'news/glc.html'
+    context_object_name = 'glc'
+    allow_empty = False  # не разрешаем показ пустых списков
+
+    # def get_queryset(self):
+    #     return SkiCenters.objects.filter(pk=self.kwargs['glc_id'])
+    #
+    # def get_context_data(self, *, object_list=None, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['title'] = SkiCenters.objects.get(pk=self.kwargs['glc_id'])
+    #     return context
+
+
+def all_groups(request):
+    trips = GroupsTrips.objects.all()
+
+    context = {
+        'trips': trips,
+        'title': 'Информация по ГЛЦ и !потом появится новости!(парсинг)'
+    }
+
+    return render(request, 'news/groups.html', context)
+
+
+def trip(request):
+    trips = GroupsTrips.objects.order_by('date_start')
+
+    context = {
+        'trips': trips,
+        'title': 'Расписание выездов на ГЛЦ'
+    }
+    return render(request, 'news/trips.html', context)
+
+
 class NewsByCategory(ListView):
     model = News
     template_name = 'news/category.html'
@@ -110,7 +146,6 @@ class ViewNews(DetailView):
     model = News
     template_name = 'news/news_detail.html'
     context_object_name = 'news_item'
-
     total_views = News.objects.all()
 
 

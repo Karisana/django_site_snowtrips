@@ -9,18 +9,18 @@
 
 <div>
 	<h3 class="mb-4 mt-4">Популярные новости</h3>
-	{% for news in news_sorted_views %}
+	{% for news in trips %}
 	         <div class="card " style="max-width: 300px;">
 	            <div class="card-body">
-		          <a href="{{ news.get_absolute_url }}" class="my_link mb-4 mt-4">
-			          <h5 class="card-title mb-4 mt-4 fw-bold">  {{ news.title }}
+<!--		          <a href="{{ news.get_absolute_url }}" class="my_link mb-4 mt-4">-->
+			          <h5 class="card-title mb-4 mt-4 fw-bold">  {{ news.trip_name_group }} {{ news.trip_place }}
 			          </h5>
-		          </a>
 	            </div>
 
 	            <div class="card-footer text-muted" style="display:flex; flex-direction:row; justify-content: space-between">
 		            <div style="display:flex">
-		            {{ news.created_at |date:'d/m/Y H:i' }}
+		            {{ news.date_start |date:'d/m/Y ' }}
+			            {{ news.date_end |date:'d/m/Y ' }}
 		            </div>
 		            <div style="display:flex; flex-direction: row; align-items: center;">
 			        <svg  style="margin-right: 10px;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">

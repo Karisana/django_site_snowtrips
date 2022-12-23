@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Горнолыжки Урала
+{% endblock %}
+
+{% block content %}
+<div style="margin-top: 10rem;">
+
+<div class="row row-cols-1 row-cols-md-2 g-4 ">
+
+  {% for item in glc %}
+		{% if item.ski_name != 'Другая' %}
+			<div  class="col-lg-6 mb-3 d-flex align-items-stretch" style="margin-bottom: 2rem;">
+				<div class="card">
+					<img class="card-img-top" src="{{ item.ski_img_one.url }}" style="height: 18rem; width: 100%;  object-fit: cover;">
+					<div class="card-body">
+
+						<h5 class="card-title mb-4 mt-4 fw-bold">  {{ item.ski_name }}</h5>
+	                    <p class="card-text my-card-text mb-4 mt-4">{{ item.ski_info|linebreaksbr }}</p>
+						<p class="card-text my-card-text mb-4 mt-4"> Перейти на сайт
+							<a href="{{ item.ski_link }}">{{ item.ski_name }}</a>.
+						</p>
+	                </div>
+	          </div>
+	       </div>
+		{% endif %}
+	{% endfor %}
+	</div>
+</div>
+</div>
+{% endblock %}
+

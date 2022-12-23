@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %} {{ category.title }} {% endblock %}
+
+{% include 'inc/_sitebar.html' %}
+
+
+{% block content %}
+<div class="row row-cols-1 g-4 ">
+
+
+
+
+
+	<div class="col mb-5">
+
+		<table class="table">
+		  <thead>
+		    <tr>
+		      <th scope="col">Дата поездки</th>
+		      <th scope="col">Дата возврата в город</th>
+              <th scope="col">Название ГЛЦ</th>
+              <th scope="col">Цена</th>
+              <th scope="col">Группа</th>
+		    </tr>
+		  </thead>
+{% for item in trips %}
+		  <tbody>
+
+		    <tr>
+
+		      <td>{{ item.date_start}}</td>
+		      <td>{{ item.date_end}}</td>
+              <td>{{ item.trip_place}}</td>
+		    <td>{{ item.trip_price}}</td>
+            <td>{{ item.trip_name_group}}</td>
+
+		    </tr>
+		  </tbody>
+					{% endfor %}
+		</table>
+
+			  </thead>
+
+	       </div>
+
+
+
+
+</div>
+{% endblock %}
