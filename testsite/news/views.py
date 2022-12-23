@@ -106,7 +106,7 @@ class AllGlc(ListView):
 
 
 def all_groups(request):
-    groups = GroupsTrips.objects.all()
+    groups = Groups.objects.order_by('-trip_title')
 
     context = {
         'groups': groups,

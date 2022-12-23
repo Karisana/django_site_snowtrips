@@ -1,9 +1,29 @@
 {% extends 'base.html' %}
-{% block title %} {{ category.title }} {% endblock %}
-
-{% include 'inc/_sitebar.html' %}
-
+{% block title %} Группы для выезда в ГЛЦ {% endblock %}
 
 {% block content %}
+<div style="margin-top: 10rem;">
 
+<div class="row row-cols-1 row-cols-md-3 g-4 ">
+
+  {% for item in groups %}
+
+			<div  class="col mb-3 d-flex align-items-stretch" style="margin-bottom: 2rem;">
+				<div class="card">
+					<img class="card-img-top" src="{{ item.trip_logo.url }}" style="height: 20rem; width: 100%;  object-fit: cover;">
+					<div class="card-body">
+
+						<h5 class="card-title mb-4 mt-4 fw-bold">  {{ item.trip_title }}</h5>
+	                    <p class="card-text my-card-text mb-4 mt-4">{{ item.trip_info|linebreaksbr }}</p>
+						<p class="card-text my-card-text mb-4 mt-4"> Перейти на сайт
+							<a href="{{ item.trip_link }}">{{ item.trip_title }}</a>.
+						</p>
+	                </div>
+	          </div>
+	       </div>
+	{% endfor %}
+	</div>
+</div>
+</div>
 {% endblock %}
+
