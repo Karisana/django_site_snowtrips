@@ -106,11 +106,10 @@ class AllGlc(ListView):
 
 
 def all_groups(request):
-    trips = GroupsTrips.objects.all()
+    groups = GroupsTrips.objects.all()
 
     context = {
-        'trips': trips,
-        'title': 'Информация по ГЛЦ и !потом появится новости!(парсинг)'
+        'groups': groups,
     }
 
     return render(request, 'news/groups.html', context)

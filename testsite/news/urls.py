@@ -21,6 +21,7 @@ urlpatterns = [
     path('glc/', AllGlc.as_view(), name='glc'),
     # path('glc/<int:glc_id>/', AllGlc.as_view(), name='glc'),
     path('glc/groups/', all_groups, name='groups'),
+    path('glc/trips/', trip, name='trips'),
 
     # path('trip/', trip, name='trip'),
 
