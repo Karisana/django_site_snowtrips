@@ -26,18 +26,20 @@ import cfscrape
 
 from lxml import html
 
-url = 'https://adzhigardak.ru/novosti'
+# url = 'https://adzhigardak.ru/novosti'
+#
+# headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+# page = requests.get(url, headers=headers)
+# # print(page.content)
+# print(page.status_code)
+#
+# soup = BeautifulSoup(page.content, 'html.parser')
+# print(soup.title)
+# print(soup.title.name)
+# print(soup.title.parent.name)
+#
+# test = soup.find('div', class_ = 't-feed__col-grid__post-wrapper')
+# print(test)
+#
 
-headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-page = requests.get(url, headers=headers)
-# print(page.content)
-print(page.status_code)
-
-soup = BeautifulSoup(page.content, 'html.parser')
-print(soup.title)
-print(soup.title.name)
-print(soup.title.parent.name)
-
-test = soup.find('div', class_ = 't-feed__col-grid__post-wrapper')
-print(test)
 

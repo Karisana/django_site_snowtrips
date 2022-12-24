@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'debug_toolbar',
     'news.apps.NewsConfig',
+    'table',
 ]
 
 MIDDLEWARE = [

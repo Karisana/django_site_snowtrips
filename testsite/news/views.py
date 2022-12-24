@@ -14,6 +14,8 @@ from django.contrib.auth import login, logout
 from django.core.mail import send_mail, BadHeaderError
 
 
+# Раздел отправки е емеил
+
 def send_mails(request):
     if request.method == 'POST':
         form = ContactForm(request.POST, request.FILES)
@@ -39,6 +41,8 @@ def send_mails(request):
         form = ContactForm()
     return render(request, 'news/send_mails.html', {'form': form})
 
+
+# Раздел регистрации и пользователей
 
 def register(request):
     if request.method == 'POST':
@@ -73,23 +77,7 @@ def user_logout(request):
     return redirect('login')
 
 
-def index(request):
-    news = News.objects.order_by('-created_at')
-    news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")[:6]
-    pagination = Paginator(news, 6)
-    page_number = request.GET.get('page')
-    page_obj = pagination.get_page(page_number)
-
-    context = {
-        'news': news,
-        'title': 'Список новостей',
-        'news_sorted_views': news_sorted_views,
-        'page_obj': page_obj,
-    }
-
-    return render(request, 'news/news_list.html', context)
-
-
+# Раздел поездок и ГЛЦ:
 class AllGlc(ListView):
     model = SkiCenters
     template_name = 'news/glc.html'
@@ -116,13 +104,37 @@ def all_groups(request):
 
 
 def trip(request):
-    trips = GroupsTrips.objects.order_by('date_start')
+    groups_sort = GroupsTrips.objects.order_by('trip_name_group', 'date_start')
+    trips_sort = GroupsTrips.objects.order_by('trip_place', 'date_start')
+    date_cort =  GroupsTrips.objects.order_by('date_start')
+
 
     context = {
-        'trips': trips,
+        'groups_sort': groups_sort,
+        'trips_sort': trips_sort,
+        'date_cort': date_cort,
         'title': 'Расписание выездов на ГЛЦ'
     }
     return render(request, 'news/trips.html', context)
+
+
+# Раздел новостей:
+
+def index(request):
+    news = News.objects.order_by('-created_at')
+    news_sorted_views = News.objects.annotate(Count("views")).order_by("-views")[:6]
+    pagination = Paginator(news, 6)
+    page_number = request.GET.get('page')
+    page_obj = pagination.get_page(page_number)
+
+    context = {
+        'news': news,
+        'title': 'Список новостей',
+        'news_sorted_views': news_sorted_views,
+        'page_obj': page_obj,
+    }
+
+    return render(request, 'news/news_list.html', context)
 
 
 class NewsByCategory(ListView):

@@ -7,15 +7,58 @@
 
 {% block content %}
 
-<div class="row row-cols-1 g-4 ">
+<div style="margin-top: 10rem;">
+	<h2>Тестовой блок сортировака по группам</h2>
 
 
+	{% regroup groups_sort by trip_name_group as trips_list %}
+	<ul>
+	{% for name_gr, j in trips_list %}
+		{{name_gr}}
+		<ul>
+	        {% for o in j %}
 
+	          <li>{{ o.trip_place }}: {{ o.date_start }}, {{ o.trip_price }} ₽ </li>
+			{% endfor %}
+	    </ul>
+	    </li>
+	{% endfor %}
+	</ul>
+
+</div>
+
+<div style="margin-top: 5rem;">
+	<h2>Тестовой блок сортировка по ГЛЦ </h2>
+
+
+	{% regroup trips_sort by trip_place as list %}
+	<ul>
+	{% for name, j in list %}
+		{{name}}
+		<ul>
+	        {% for o in j %}
+	          <li>{{ o.trip_name_group }}: {{ o.date_start }}, {{ o.trip_price }} ₽ </li>
+			{% endfor %}
+	    </ul>
+	    </li>
+	{% endfor %}
+	</ul>
+
+</div>
+<!--			      <td>{{ item.date_start}}</td>-->
+<!--			      <td>{{ item.date_end}}</td>-->
+<!--	              <td>{{ item.trip_place}}</td>-->
+<!--				  <td>{{ item.trip_price}}</td>-->
+<!--		          <td>{{ item.trip_name_group}}</td>-->
+
+<div class="row row-cols-1 g-4" style="margin-top: 10rem";>
+		<h2>Расписание сорт по датам</h2>
 
 
 	<div class="col mb-5">
 
 		<table class="table">
+
 		  <thead>
 		    <tr>
 		      <th scope="col">Дата поездки</th>
@@ -25,25 +68,24 @@
               <th scope="col">Группа</th>
 		    </tr>
 		  </thead>
-{% for item in trips %}
-		  <tbody>
 
-		    <tr>
+			{% for item in date_cort %}
+			  <tbody>
+			    <tr>
 
-		      <td>{{ item.date_start}}</td>
-		      <td>{{ item.date_end}}</td>
-              <td>{{ item.trip_place}}</td>\
-			  <td>{{ item.trip_price}}</td>
-	          <td>{{ item.trip_name_group}}</td>
+			      <td>{{ item.date_start}}</td>
+			      <td>{{ item.date_end}}</td>
+	              <td>{{ item.trip_place}}</td>
+				  <td>{{ item.trip_price}}</td>
+		          <td>{{ item.trip_name_group}}</td>
 
-		    </tr>
-		  </tbody>
-					{% endfor %}
+			    </tr>
+			  </tbody>
+			{% endfor %}
+
 		</table>
 
-			  </thead>
-
-	       </div>
+	</div>
 
 
 
